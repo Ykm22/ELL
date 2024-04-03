@@ -21,3 +21,34 @@ A report will be prepared, to include the following:
 - The title of the research.
 - A refined table of contents of the research. A simple list of entries will not be enough.
 - A few paragraphs explaining the intended working plan.
+
+# Report 2: Bibliographical documentation
+
+A report will be prepared to include a list of the bibliography entries relevant to the research.
+
+For any reference, the report should include:
+
+- a brief summary of the paper
+- an evaluation of the importance
+- the place the said reference has in the economy of the research.
+
+A state-of-the-art study has to be performed as part of this research phase.
+
+# Report 3: First draft of the report
+
+The first draft of the report will be be prepared. The contents will have to match the title and the requirements of a research project. At this phase the report will include a preliminary version of the theoretical study and a preliminary setup of the intended experimentation.
+
+# Report 4: Full text of the report
+
+The final text of the report will be be prepared. The contents will have to match the title and the requirements of a research project. Any report not satisfying these requirements will be rejected.
+
+# Report defense
+
+The report defense consists of a 1000 words introspective essay with an analysis of the activity the student has performed for completing all the assignments, in terms of strengths, weaknesses, opportunities and threats. The essay will have to cover the following:
+
+- challenges;
+- strengths: strong/positive points, benefits, what the student learned during the research, etc;
+- weaknesses: difficulties encountered, limitations/drawbacks, the things that did not work as expected, results below expectations, etc;
+- opportunities: possibilities for improvement, progress, etc;
+- threats: risks involved, how they were overcome;
+- impact of the work.

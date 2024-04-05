@@ -9,7 +9,7 @@
 - According to the syllabus, the submission delay penalties are of 1 (one) point per (part of) calendar week; holiday weeks inside the semester do not count.
   </br></br>
   🟢 Report 1: title, table of contents, plan of activity, motivation; deadline week 4, Friday, 6pm; submission form.</br>
-  🔴 Report 2: bibliographical documentation, sources relevance and fitness to report structure, state-of-the-art; deadline week 6, Friday, 6pm; submission form. </br>
+  🟢 Report 2: bibliographical documentation, sources relevance and fitness to report structure, state-of-the-art; deadline week 6, Friday, 6pm; submission form. </br>
   🔴 Report 3: first draft of the report; deadline week 8, Friday, 6pm; submission form. </br>
   🔴 Report 4: full text of the report; deadline week 10, Friday, 6pm; submission form. </br>
   🔴 Defense: report defense essay; deadline week 12, Friday, 6pm; </br>

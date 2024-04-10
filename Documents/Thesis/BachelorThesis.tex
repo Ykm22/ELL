@@ -1,0 +1,80 @@
+\documentclass[a4paper, 12pt]{article}
+
+%•	Lucrarea se recomandă a avea între 30 și 60 de pagini
+%•	Format: A4, fonturi de 12pt, distanță de 1.5 între rânduri
+%•	Obligatoriu paginile sunt numerotate
+%•	Capitolele vor începe pe pagină nouă
+
+\usepackage{comment}
+\usepackage{setspace}
+
+% for bibliography
+\usepackage[english]{babel}
+\usepackage[nottoc]{tocbibind}
+% for clicking on a cite leading to bibliography
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue]{hyperref}
+
+
+% Redefine \maketitle to customize title layout
+\makeatletter
+\renewcommand{\maketitle}{
+    \begin{center}
+            \normalsize{BABEŞ-BOLYAI UNIVERSITY CLUJ-NAPOCA}\par % University name
+            \normalsize{FACULTY OF MATHEMATICS AND COMPUTER SCIENCE}\par % Faculty name
+            \normalsize{COMPUTER SCIENCE IN ROMANIAN SPECIALIZATION}\par
+        \vspace{16em} % Vertical space
+
+        {\LARGE\@title\par} % Title in large font
+        \vspace{16em} % Vertical space
+
+        \textbf{Supervisor}\hspace{20em}\textbf{Author}\par
+        Prof.dr. Horia F. Pop\hspace{16em}{\large\@author\par} % Author
+        \vspace{3em} % Vertical space
+
+        {\large\@date\par} % Date
+    \end{center}
+}
+\makeatother
+
+\title{
+    DIPLOMA THESIS \\
+    Alzheimer's Disease Detection
+}
+\author{Ichim Ștefan}
+\date{2024}
+
+% Set the page margins if needed
+%\usepackage[margin=1.5in]{geometry}
+
+% Set line spacing to 1.5
+\onehalfspacing
+
+\begin{document}
+
+% title page
+\maketitle
+\newpage
+
+% abstract page
+\begin{abstract}
+    Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+    Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+    Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+    Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+    Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+    Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+    Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+    Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+\end{abstract}
+\newpage
+
+\tableofcontents
+\newpage
+
+hi \cite{example-article, example-book}
+
+\newpage
+\bibliographystyle{plainnat} % Specify bibliography style
+\bibliography{references}
+
+\end{document}

@@ -4,7 +4,7 @@
 %•	Format: A4, fonturi de 12pt, distanță de 1.5 între rânduri
 %•	Obligatoriu paginile sunt numerotate
 %•	Capitolele vor începe pe pagină nouă
-
+% margini: top=2.5cm,left=3cm,right=2.5cm,bottom=2.5cm
 \usepackage{comment}
 \usepackage{setspace}
 
@@ -13,6 +13,8 @@
 \usepackage[nottoc]{tocbibind}
 % for clicking on a cite leading to bibliography
 \usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue]{hyperref}
+% specificatii in legatura cu margini
+\usepackage[top=2.5cm,left=3cm,right=2.5cm,bottom=2.5cm]{geometry}
 
 
 % Redefine \maketitle to customize title layout
@@ -71,6 +73,7 @@
 \tableofcontents
 \newpage
 
+\section{Introduction}
 hi \cite{example-article, example-book}
 
 \newpage

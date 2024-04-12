@@ -12,7 +12,7 @@
 \usepackage[english]{babel}
 \usepackage[nottoc]{tocbibind}
 % for clicking on a cite leading to bibliography
-\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue]{hyperref}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=blue,urlcolor=blue]{hyperref}
 % specificatii in legatura cu margini
 \usepackage[top=2.5cm,left=3cm,right=2.5cm,bottom=2.5cm]{geometry}
 
@@ -24,10 +24,10 @@
             \normalsize{BABEŞ-BOLYAI UNIVERSITY CLUJ-NAPOCA}\par % University name
             \normalsize{FACULTY OF MATHEMATICS AND COMPUTER SCIENCE}\par % Faculty name
             \normalsize{COMPUTER SCIENCE IN ROMANIAN SPECIALIZATION}\par
-        \vspace{16em} % Vertical space
+        \vspace{21em} % Vertical space
 
         {\LARGE\@title\par} % Title in large font
-        \vspace{16em} % Vertical space
+        \vspace{21em} % Vertical space
 
         \textbf{Supervisor}\hspace{20em}\textbf{Author}\par
         Prof.dr. Horia F. Pop\hspace{16em}{\large\@author\par} % Author
@@ -45,9 +45,6 @@
 \author{Ichim Ștefan}
 \date{2024}
 
-% Set the page margins if needed
-%\usepackage[margin=1.5in]{geometry}
-
 % Set line spacing to 1.5
 \onehalfspacing
 
@@ -57,6 +54,7 @@
 \maketitle
 \newpage
 
+% ------------------------------------ABSTRACT--------------------------------------
 % abstract page
 \begin{abstract}
     Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
@@ -70,13 +68,28 @@
 \end{abstract}
 \newpage
 
+% ------------------------------------CONTENTS--------------------------------------
 \tableofcontents
 \newpage
 
+% ----------------------------------INTRODUCTION------------------------------------
 \section{Introduction}
-hi \cite{example-article, example-book}
+There is no denying that humanity stands at a previously inconceivable point in healthcare and medicine,
+which naturally have led to hindrances in senescence, populations increasingly reaching older stages of life.
+Furthermore, studies which take into account multiple case scenarios show that population is expected to reach
+9.2 billion by the age of 2050, leading to an uprise of 21\% in the elderly. \cite{KC2017181}
+
+With that being said, researchers' concern has has taken a turn towards diseases occurring at these later
+parts of human lives, some of them considered treatable while others less so. One of such disorders is
+Alzheimer's Disease, or AD, considered to be the most likely predecessor of dementia. Alzheimer's Disease
+is a brain disease, neurodegenerative, which in time diminishes cognitive skills such as memory, thinking
+and speaking, and in due course even removes the ability of accomplishing simple activities.
+On top of that, it is an incurable disorder, which only underlines even further the reasons why early
+detection stand of such great importance, so that necessary
 
 \newpage
+
+
 \bibliographystyle{plainnat} % Specify bibliography style
 \bibliography{references}
 

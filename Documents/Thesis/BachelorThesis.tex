@@ -144,13 +144,13 @@ of other outside factors, which we can have a higher influence on.
 Among these can be found vascular conditions - high blood pressure, heart diseases - and metabolic diseases - obesity and diabetes
 \cite{NIH2}.
 
-% todo - 15/04 -> symptoms, process of diagnosios, how scans work
+%* todo - 15/04 -> symptoms, process of diagnosios, how scans work
 \subsection{Symptoms} %* -- Introduction/Symptoms
 Before beginning the discussion about its effects, a noteworthy fact is that brain structure modifications, whether they may be
 neurofibrillary tangles or plaques of amyloid, occur several years before any cognitive issues manifest at all, a stage of the disease titled
 preclinical. With that being said, their presence does not inevitably lead to dementia.
 
-Besides preclinical stage, AD has been classified into three others: mild, moderate, severe.
+Apart from preclinical stage, AD has been classified into three others: mild, moderate, severe.
 
 \subsubsection*{Early-stage (Mild)} %* -- Introduction/Symptoms/Early-stage
 A person which suffers from early-stage Alzheimer's Disease can still function normally on their own, without mandatory outside benefactors.
@@ -178,7 +178,7 @@ AD diagnosis can only be carried out upon gathering a variety of complex data, w
 cognitive and physical skills, neurological exams, brain scans, blood tests and cerebrospinal fluid.
 
 Medical history consists of modifications in how the patient behaves over the course of time, past and present medical concerns
-and even the undergoing medication. Besides these, information about other family members' health conditions is obtained, since,
+and even the undergoing medication. Other than these, information about other family members' health conditions is obtained, since,
 as previously mentioned, genes do play a role in increasing the risk, or protecting against Alzheimer's Disease.
 
 An overall health status is evaluated, involving commonly met questions about diet, blood pressure and pulse, checking
@@ -197,18 +197,19 @@ beta ($A\beta $ or Abeta), peptides considered the essential part of amyloid pla
 process typically serves only as a last resort. \\
 \cite{AA2}
 
-% todo: fix this shit sometimes, sounds awful
+%* todo: fix this shit sometimes, sounds awful
 
-\subsection{Imaging Modalities Involved in Alzheimer's Disease}
+\subsection{Imaging Modalities Involved in Alzheimer's Disease} %* -- Introduction/ImagingModalitiesInvolved
 Through recent technological advancements, brain imaging's role has shifted to a crucial one. By and large, imaging has
 expanded into various different modalities, each with their own strengths and weaknesses, but combined lead to a better
-analysis of AD's effects. \cite{Johnson2012BrainII}
+analysis of AD's effects on the human brain. \cite{Johnson2012BrainII}
 
-\subsubsection*{Amyloid PET}
+\subsubsection*{Amyloid PET} %* -- Introduction/ImagingModalitiesInvolved/AmyloidPET
 Amyloid Positron Emission Tomography is a non-invasive technique, which locates amyloid plaques.
-Due to its unavailability and expensive price, this method has not seen increase in popularity.
-\\
-\cite{Chapleau2022TheRO}
+Due to its unavailability and expensive price, this method has not seen much popularity, but
+there is no denying its accuracy, past studies showing that 96\% of the people who had performed an
+amyloid PET scan and were amyloid positive had been diagnosed with Alzheimer's Disease.\\
+\cite{Johnson2012BrainII}
 
 \begin{figure}[htbp]
     \centering
@@ -217,7 +218,7 @@ Due to its unavailability and expensive price, this method has not seen increase
     \label{fig:amyloid-pet}
 \end{figure}
 
-\subsubsection*{FDG PET}
+\subsubsection*{FDG PET} %* -- Introduction/ImagingModalitiesInvolved/FDG-PET
 Fluoro-deoxy-D-glucose (FDG) PET showcases synaptic activity, because the brain's primary energy comes from glucose.
 The Fluorine part of the FDG comes as a consequence of the convenient dynamic it has with Positron Emission Tomography,
 which easily detects it.
@@ -229,22 +230,76 @@ which easily detects it.
     \label{fig:fdg-pet}
 \end{figure}
 
-\subsubsection*{Structural MRI}
+\subsubsection*{Structural MRI} %* -- Introduction/ImagingModalitiesInvolved/SMRI
 Structual Magnetic Resonance Imaging (sMRI) is a non-invasive method applied to observe pathology and anatomy of the brain
 by emitting radiofrequency pulses in sequences. Its main purpose is to exhibit brain atrophy, associated with shrinking size
-due to neuron counts declining. One of its drawbacks is that hallmarks of AD cannot be detected, and also atrophy isn't
-specific to the disease discussed.
+due to neuron counts declining. One of its drawbacks is that, compared to PET imaging, hallmarks of AD cannot be detected,
+and also atrophy isn't specific to the disease discussed.
 
-\subsubsection*{Functional MRI}
+\subsubsection*{Functional MRI} %* -- Introduction/ImagingModalitiesInvolved/FMRI
 As the previous method, the functional variant of MRI is non-invasive as well, but, on the other hand, provides
 scientists a neuronal activity mapping of the brain. A few of them require the patient to perform certain cognitive tasks
 during the scanning process, and there are also some which need the brain to be found in a specific resting state.
 Functional MRI's setback is the necessity of lack of motion, and any of the patient's movements could lead to faulty
 data.
 
+%* todo 16/4 -> fix intro(imaging), kinda day off
+% todo 17/4 -> describe prediction tasks, history of approaches, how neural networks work, start related works, at least 1 papers described 
+
+\subsection*{Tasks}
+An important question to ask before traversing further, is what type of predictions are we demanding from ourselves?
+As aforementioned, Alzheimer's Disease classifies itself in three stages: Normal Cognition(NC), Mild Cognitive Impairment(MCI)
+- which further breaks down into progressive MCI and stable MCI, pMCI and sMCI respectively - and Alzheimer's Disease.
+
+These various disease progressions have given birth to a collection of tasks for researchers. There are approaches
+which classify AD in two - NC vs AD, NC vs MCI, MCI vs AD -, three - NC vs MCI vs AD - and even four classes, including MCI's
+subclasses. On the other hand, regression problems build the percentage of a specific stage to progress.
+
+\subsection*{Deep Learning}
+Recent advancements in deep learning, with a higher degree of respect to Convolutional Neural Networks (CNNs) and Recurrent
+Neural Networks(RNNs), have had main roles in raising the speed and accuracy with which classification or regression task
+are accomplished.
+
+Before 2013, the most commonly met algorithms included stacked Restricted Boltzmann machines and stacked autoencoders,
+but ever since, CNNs and RNNs have taken the spotlight, surprising the world with their results, especially when given
+inputs of MRI or PET \cite{make6010024}.
+
+Deep Learning's key characteristic is the power to find a hypothesis leading to the desired outcome unbeknownst to the
+humans of how it is realized, with the drawback of needing a high amount of data and proportionate computational resources.
+
+\subsubsection*{Artificial Neural Networks}
+As their name suggests, ANNs consist of a collective of artifical neurons connected between eachother. They represent how
+researchers have tried to emmulate the biological neural brain, where the nodes play the role of neurons, and connections,
+or edges, between them that of synapses.
+
+Furthermore these neurons are stratified into various layers, through which information passes, notably the initial and last
+layer have been titled as input and output accordingly, while the ones in-between called hidden layers.
+
+Each neuron's meaning is to receive information and process it in order to be passed to the next layer through the
+array of synapses. Activation functions take place in the processing stage, in order for non-linearities to be applied
+to the hypothesis being built.
+
+In the course of multiple iterations, these neurons adapt to the task given by the designer, adaptation formally known as weights.
+
+\subsubsection*{Convolutional Neural Networks}
+These types of artifical neural networks are feedforward - input flows only in forward direction, without loops - and exhibit
+the capacity to extract features automatically. In such networks, convolutional layers and pooling layers represent
+their main components. Convolutional layers transform the data by passing it through a kernel creating a feature map
+, and pooling layers finetune network parameters by taking these feature maps and reducing their size.
+This final product also takes the name of pooled feature map \cite{li2021survey}.
+
+\subsubsection*{Recurrent Neural Networks}
+RNNs are the other types of neural networks, described best by how information propagates inside it, which compared to
+the single directioned CNNs, RNNs are bi-directional. This property creates the opportunity of some information to be
+used in more than just one place, with the justification that evaluations sometimes show improvements in results.
 
 \newpage
 
+\section{Related Work} %* -- RelatedWork
+
+
+
+\newpage
 
 \bibliographystyle{plainnat}
 \bibliography{references}

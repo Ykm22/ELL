@@ -293,11 +293,66 @@ RNNs are the other types of neural networks, described best by how information p
 the single directioned CNNs, RNNs are bi-directional. This property creates the opportunity of some information to be
 used in more than just one place, with the justification that evaluations sometimes show improvements in results.
 
+
+\subsection{Regions of Interests}
+This section serves as a guide to understanding why certain regions of the brain deserve more attention than others while
+studying the Alzheimer's Disease.
+
+\subsubsection*{Medial Temporal Lobe (MTL)}
+MTL represents a brain region known for its capacities of handling memory abilities related to space and episodes \cite{10.3389/fnsys.2017.00019}.
+Previous works prove that it is among the first to suffer from shrinkage over the course of AD's effect \cite{deFlores2131}, \\
+mainly due to how soon tangles of neurofibrilaries develop (NFT). Upon the beginning of NFTs, they start spreading further in the network,
+ultimately reaching the neocortex, region which realizes reasoning, meaning and consciousness.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.25\textheight,width=0.7\textwidth]{figs/MTL-coronal.png}
+    \caption{(a) Illustration showing the location of medial temporal lobe structures on coronal section
+     (taken from Gray's Anatomy). (b) Coronal T1-weighted MRI scan of HM's brain, showing the absence of the 
+     hippocampus and related medial temporal lobe structures bilaterally (arrowhead). Source: \cite{MTL-image}}
+    \label{fig:MTL}
+\end{figure}
+
 \newpage
 
+% todo 18/04 -> 2 3D-MRI CNN, 2 RNN approaches
+
 \section{Related Work} %* -- RelatedWork
+\cite{bae2020} suggest a Convolutional Neural Network approach where, in contrast to other CNN approaches, they give as input
+2D-MRI scans, with attention to the medial temporal lobe (MTL) from coronal slices, MTL being widely considered to be the
+area suffering most change. Even though other parts of the brain contain valuable information as well, they deem it
+unnecessary due to probabilities of altering the algorithm's outcomes. They make use of ADNI\footnote{Alzheimer's Disease Neuroimaging Initiative}
+and SNUBH\footnote{Seoul National University Bundang Hospital} datasets in order to highlight the importance of each patient's background for
+the predictions, such as ethnicity and educational levels, by which the human brain is thought to vary accordingly.
+Their approach include evaluations through AUC (area under the receiver operating characteristic curve), accuracy, sensitivity and specificity
+- for ADNI: 88\%, 83\%, 76\%, 89\%, and for SNUBH: 89\%, 82\%, 79\%, 85\% . They have also underwent within and between dataset comparisons,
+having used 2 datasets: 91\%-94\% for within-dataset and 88\%-89\% for between.
 
+On the other hand, \cite{PMID-31201098} provide a 3D-MRI approach using CNNs where the a region of the medial temporal lobe
+is taken into consideration this time, the hippocampus. The used datasets include 3 stages from the ADNI study: 1, GO \& 2 and
+the AIBL\footnote{Australian Imaging Biomarkers and Lifestyle Study of Aging}. Their main concern is that of predicting the
+progression from the moderate to servere stage along with a time estimation, underlining that previous MCI and AD comparisons
+only classify MCI in either progressive (pMCI) or stable (sMCI). Accuracies for each dataset are the following: ADNI with
+76.2\%, AIBL with 78.1\%.
 
+\cite{10.1117/1.JMI.8.2.024503} realize multiple trials with different architectures and input modalities, 2D and 3D MR scans,
+however making use only on a small amount of 132 subjects from the ADNI dataset before dividing in the corresponding purposes
+to the algorithm. Their best results come from SqueezeNet and ResNet-18 on 2D inputs using transfer learning.
+For measurements of accuracy, sensitivity and specificity, ResNet had achieved 84.38\%, 87.5\%, 81.25\% respectively, while
+SqueezeNet's results were 90.62\%, 81.25\% and 100\%.
+
+% todo 19/04 -> explain medial temporal lobe, 1-2 more articles
+
+Nguyen and colleagues tackled a Recurrent Neural Network method for the TADPOLE\footnote{The Alzheimer's Disease Prediction
+    Of Longitudinal Evolution} Challenge \cite{NGUYEN2020117203}. \\
+Corresponding to the competition's recommendation, a set of 23 variables was used as inputs which included multi-modal
+imaging, cognitive test results and clinical diagnosis. The research had tested the minimalRNN architecture \cite{Chen2017MinimalRNNTM}
+which was modified properly in order for the problem to become 6-class labeling problem: NC stable, NC progressive, MCI recovered,
+MCI stable, MCI progressive and AD stable. Their trials were verified using multiclass area under the curve (mAUC) and balanced
+class accuracy (BCA) with the scores of 94.5\% and 88\%. One of their unique noteworthy contribution is their ways of
+handling missing data at consecutive time points, which consisted of three variations: firstly, model-filling, done by the model
+during training and testing, and the next two were considered as preprocessing techniques: forward-filling and linear-filling using linear
+interpolation. Model-filling coming out on top for the minimalRNN solution.
 
 \newpage
 

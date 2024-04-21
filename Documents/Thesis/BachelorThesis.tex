@@ -11,6 +11,9 @@
 % for bibliography
 \usepackage[english]{babel}
 \usepackage[nottoc]{tocbibind}
+% subfigure
+\usepackage{subcaption}
+
 % for clicking on a cite leading to bibliography
 \usepackage{hyperref}
 \hypersetup{
@@ -308,14 +311,15 @@ ultimately reaching the neocortex, region which realizes reasoning, meaning and 
     \centering
     \includegraphics[height=0.25\textheight,width=0.7\textwidth]{figs/MTL-coronal.png}
     \caption{(a) Illustration showing the location of medial temporal lobe structures on coronal section
-     (taken from Gray's Anatomy). (b) Coronal T1-weighted MRI scan of HM's brain, showing the absence of the 
-     hippocampus and related medial temporal lobe structures bilaterally (arrowhead). Source: \cite{MTL-image}}
+        (taken from Gray's Anatomy). (b) Coronal T1-weighted MRI scan of HM's brain, showing the absence of the
+        hippocampus and related medial temporal lobe structures bilaterally (arrowhead). Source: \cite{MTL-image}}
     \label{fig:MTL}
 \end{figure}
 
-\newpage
 
 % todo 18/04 -> 2 3D-MRI CNN, 2 RNN approaches
+\newpage
+\newpage
 
 \section{Related Work} %* -- RelatedWork
 \cite{bae2020} suggest a Convolutional Neural Network approach where, in contrast to other CNN approaches, they give as input
@@ -355,8 +359,93 @@ during training and testing, and the next two were considered as preprocessing t
 interpolation. Model-filling coming out on top for the minimalRNN solution.
 
 \newpage
+\section{Setup Summary(will be replaced later)}
+\begin{itemize}
+    \item 2D-MR image CNN approach
+    \item Classify between NC and AD
+    \item AUC, accuracy, specificity and sensitivity as evaluation metrics.
+    \item Dataset: ADNI (available upon request from \url{https://adni.loni.usc.edu/}).
+    \item Tools: python, pytorch.
+    \item Why? - 2D mr scans can lead to more complex CNN networks, while still having less parameters than 3D CNN
+\end{itemize}
+
+
+% todo 21/04 code/dataset handling
+\newpage
+\section{Dataset handling}
+The data used in this research has been taken from the Alzheimer's Disease Neuroimaging Initiative (ADNI)
+database (adni.loni.usc.edu). The initiative started in 2003 led by Principal Investigator Michael W. Weiner, MD
+as a public-private partnership. Its primary objective has been to verify if serial magnetic resonance imaging (MRI),
+positron emission tomography (PET), clinical and neuropsychological assessments, as well as other biological markers
+can together measure the progression of mild cognitive impairment (MCI) and early Alzheimer's Disease (AD)\\
+\cite{PMID20042704}
+
+% todo: fix here later, made really early for a stupid assignment
+Images are taken using structural MR imaging (sMRI) which display brain atrophies. These scans can be found in
+NiFTi format (.nii) and using the \textit{nibabel} library in python, which was designed for the purpose of
+supporting neuroimaging file formats, they can be accessed and plotted as 2D images, according to a specific
+plane - coronal, sagittal or axial (Fig \ref{fig:images}).
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=0.16\textheight]{figs/coronal-slice-75.png}
+        \caption{Coronal Slice}
+        \label{fig:sub1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth, height=0.16\textheight]{figs/sagittal-slice-75.png}
+        \caption{Sagittal Slice}
+        \label{fig:sub2}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \centering
+        \includegraphics[width=\textwidth, height=0.16\textheight]{figs/axial-slice-75.png}
+        \caption{Axial Slice}
+        \label{fig:sub3}
+    \end{subfigure}
+    \caption{Visualisation of an sMRI scan}
+    \label{fig:images}
+\end{figure}
+
+Firstly, as a preprocessing step, skull-stripping is applied, which is realized by applying a segmentation mask
+to the normal untouched versions of the MRI. This has been provided by the ADNI, and so only the algorithm
+needs to be applied.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.16\textheight,width=0.7\textwidth]{figs/segmentation-mask.png}
+    \caption{Skull-stripping using a segmentation mask}
+    \label{fig:segm-mask}
+\end{figure}
+
+\newpage
+\section{Acknowledgements}
+
+This work is the result of my own activity, and I confirm I have neither given, nor received unauthorized assistance for this work.
+
+I declare that I did not use generative AI or automated tools in the creation of content or drafting of this document.
+
+
+Data collection and sharing for the Alzheimer's Disease Neuroimaging Initiative (ADNI) is funded by the National
+Institute on Aging (National Institutes of Health Grant U19 AG024904). The grantee organization is the Northern
+California Institute for Research and Education. In the past, ADNI has also received funding from the National
+Institute of Biomedical Imaging and Bioengineering, the Canadian Institutes of Health Research, and private
+sector contributions through the Foundation for the National Institutes of Health (FNIH) including generous
+contributions from the following: AbbVie, Alzheimer’s Association; Alzheimer’s Drug Discovery Foundation;
+Araclon Biotech; BioClinica, Inc.; Biogen; Bristol-Myers Squibb Company; CereSpir, Inc.; Cogstate; Eisai Inc.;
+Elan Pharmaceuticals, Inc.; Eli Lilly and Company; EuroImmun; F. Hoffmann-La Roche Ltd and its affiliated
+company Genentech, Inc.; Fujirebio; GE Healthcare; IXICO Ltd.; Janssen Alzheimer Immunotherapy Research \&
+Development, LLC.; Johnson \& Johnson Pharmaceutical Research \&Development LLC.; Lumosity; Lundbeck;
+Merck \& Co., Inc.; Meso Scale Diagnostics, LLC.; NeuroRx Research; Neurotrack Technologies; Novartis
+Pharmaceuticals Corporation; Pfizer Inc.; Piramal Imaging; Servier; Takeda Pharmaceutical Company; and
+Transition Therapeutics.
+\newpage
 
 \bibliographystyle{plainnat}
 \bibliography{references}
+
 
 \end{document}

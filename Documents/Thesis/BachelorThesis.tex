@@ -28,6 +28,42 @@
 
 \usepackage{graphicx}
 
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Define colors for syntax highlighting
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Define style for Python code
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\scriptsize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+    language=Python
+}
+
+% Apply the style
+\lstset{style=mystyle}
+
 % Redefine \maketitle to customize title layout
 \makeatletter
 \renewcommand{\maketitle}{
@@ -358,6 +394,28 @@ handling missing data at consecutive time points, which consisted of three varia
 during training and testing, and the next two were considered as preprocessing techniques: forward-filling and linear-filling using linear
 interpolation. Model-filling coming out on top for the minimalRNN solution.
 
+\begin{table}[htbp]
+    \centering
+    \footnotesize
+    \begin{tabular}{cccc}
+        \toprule
+        \multirow{2}{*}{Article}                     & \multirow{2}{*}{Architectures} & \multirow{2}{*}{Performance Measures} & \multirow{2}{*}{Results}        \\
+                                                     &                                &                                       &                                 \\
+        \midrule
+        Jong Bin Bae et al.(2020)                    & 2D-CNN                         & AUC, acc, sens, specif                & \tiny{88\%, 83\%, 76\%, 89\%}   \\
+        \midrule
+        Li et al.(2019)                              & 3D-CNN                         & acc                                   & \footnotesize{76.2\%, 78.1\%}   \\
+        \midrule
+        \multirow{2}{*}{Ebrahimi and Sunhuai (2021)} & SqueezeNet                     & \multirow{2}{*}{acc, sens, specif}    & \tiny{84.38\%, 87.5\%, 81.25\%} \\
+                                                     & Resnet-18                      &                                       & \tiny{90.62\%, 81.25\%, 100\%}  \\
+        \midrule
+        Nguyen et al. (2020)                         & minimalRNN                     & mAUC, BCA                             & \footnotesize{94.5\%, 88\%}     \\
+        \bottomrule
+    \end{tabular}
+    \caption{A breakdown of the state-of-the-arts}
+    \label{tab:mytable}
+\end{table}
+
 \newpage
 \section{Setup Summary(will be replaced later)}
 \begin{itemize}
@@ -396,14 +454,14 @@ plane - coronal, sagittal or axial (Fig \ref{fig:images}).
     \end{subfigure}
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
-        \includegraphics[width=1\textwidth, height=0.16\textheight]{figs/sagittal-slice-75.png}
-        \caption{Sagittal Slice}
+        \includegraphics[width=1\textwidth, height=0.16\textheight]{figs/axial-slice-75.png}
+        \caption{Axial Slice}
         \label{fig:sub2}
     \end{subfigure}
     \begin{subfigure}[b]{0.3\textwidth}
         \centering
-        \includegraphics[width=\textwidth, height=0.16\textheight]{figs/axial-slice-75.png}
-        \caption{Axial Slice}
+        \includegraphics[width=\textwidth, height=0.16\textheight]{figs/sagittal-slice-75.png}
+        \caption{Sagittal Slice}
         \label{fig:sub3}
     \end{subfigure}
     \caption{Visualisation of an sMRI scan}
@@ -411,15 +469,49 @@ plane - coronal, sagittal or axial (Fig \ref{fig:images}).
 \end{figure}
 
 Firstly, as a preprocessing step, skull-stripping is applied, which is realized by applying a segmentation mask
-to the normal untouched versions of the MRI. This has been provided by the ADNI, and so only the algorithm
+to the original versions of the MRI. This has been provided by the ADNI, and so only the algorithm
 needs to be applied.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[height=0.16\textheight,width=0.7\textwidth]{figs/segmentation-mask.png}
-    \caption{Skull-stripping using a segmentation mask}
+    \includegraphics[height=0.16\textheight,width=0.7\textwidth]{figs/sagittal_segm_mask_applying.png}
+    \caption{Skull-stripping using a segmentation mask over a sagittal slice: (a) the segmentation mask, (b) the
+        original version of the scan, (c) the final result after applying the segmentation algorithm
+    }
     \label{fig:segm-mask}
 \end{figure}
+
+\newpage
+The following python function applies the segmentation mask given the mpr scan type and a path to the subject.
+\begin{lstlisting}
+import numpy as np
+import nibabel as nib
+from pathlib import Path
+
+def open_and_apply_mask(subject_path : Path, mpr_type: str) -> np.ndarray:
+    '''
+    subject_path - path of a subject
+    mpr_type - which type of mpr to be considered
+
+    Function takes the full path of the subject directory and the type of mpr, opens the unprocessed .nii file and its corresponding mask and returns the resulting array after applying the segmentation mask.
+    '''
+    mask_path = list(subject_path.glob(f"*{mpr_type}__*Mask*.nii"))[0]
+    image_path = list(subject_path.glob(f"*{mpr_type}__*_Correction_I*.nii"))[0]
+
+    mask_arr = nib.load(mask_path).get_fdata()
+    image_arr = nib.load(image_path).get_fdata()
+
+    mask_arr = np.transpose(mask_arr, (2, 1, 0))
+    segmented_arr = image_arr.copy()
+
+    # Mask and image have different orientations for saggital plane
+    for i in range(mask_arr.shape[2]): 
+        mask_arr[:, :, i] = np.rot90(mask_arr[:, :, i], k=2)
+
+    segmented_arr[mask_arr == 0] = 0
+
+    return segmented_arr
+\end{lstlisting}
 
 \newpage
 \section{Acknowledgements}

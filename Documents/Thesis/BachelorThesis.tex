@@ -416,29 +416,32 @@ interpolation. Model-filling coming out on top for the minimalRNN solution.
     \label{tab:mytable}
 \end{table}
 
-\newpage
-\section{Setup Summary(will be replaced later)}
-\begin{itemize}
-    \item 2D-MR image CNN approach
-    \item Classify between NC and AD
-    \item AUC, accuracy, specificity and sensitivity as evaluation metrics.
-    \item Dataset: ADNI (available upon request from \url{https://adni.loni.usc.edu/}).
-    \item Tools: python, pytorch.
-    \item Why? - 2D mr scans can lead to more complex CNN networks, while still having less parameters than 3D CNN
-\end{itemize}
+% \newpage
+% \section{Setup Summary(will be replaced later)}
+% \begin{itemize}
+%     \item 2D-MR image CNN approach
+%     \item Classify between NC and AD
+%     \item AUC, accuracy, specificity and sensitivity as evaluation metrics.
+%     \item Dataset: ADNI (available upon request from \url{https://adni.loni.usc.edu/}).
+%     \item Tools: python, pytorch.
+%     \item Why? - 2D mr scans can lead to more complex CNN networks, while still having less parameters than 3D CNN
+% \end{itemize}
 
 
-% todo 21/04 code/dataset handling
+% todo 21/04 code/dataset
 \newpage
-\section{Dataset handling}
+\section{Dataset}
 The data used in this research has been taken from the Alzheimer's Disease Neuroimaging Initiative (ADNI)
 database (adni.loni.usc.edu). The initiative started in 2003 led by Principal Investigator Michael W. Weiner, MD
 as a public-private partnership. Its primary objective has been to verify if serial magnetic resonance imaging (MRI),
 positron emission tomography (PET), clinical and neuropsychological assessments, as well as other biological markers
 can together measure the progression of mild cognitive impairment (MCI) and early Alzheimer's Disease (AD)\\
-\cite{PMID20042704}
+\cite{PMID20042704}.
 
-% todo: fix here later, made really early for a stupid assignment
+% todo 22/04: fix here later, made really early for a stupid assignment
+% todo 21/05: back to work 🙂
+% todo 21/05: dataset/preprocessing/model/results
+
 Images are taken using structural MR imaging (sMRI) which display brain atrophies. These scans can be found in
 NiFTi format (.nii) and using the \textit{nibabel} library in python, which was designed for the purpose of
 supporting neuroimaging file formats, they can be accessed and plotted as 2D images, according to a specific
@@ -468,9 +471,43 @@ plane - coronal, sagittal or axial (Fig \ref{fig:images}).
     \label{fig:images}
 \end{figure}
 
-Firstly, as a preprocessing step, skull-stripping is applied, which is realized by applying a segmentation mask
-to the original versions of the MRI. This has been provided by the ADNI, and so only the algorithm
-needs to be applied.
+Due to the large amount of size such complex scans come in, this study only takes into consideration the first phase of the
+ADNI Initiative, ADNI1 which included 448 unique subjects, with multiple visits, in total reaching up to 1512 entries.
+With that being said, only 852 entries also were accompanied by their respective mask used for preprocessing, which is later
+described. At the end, the data consisted of 381GB worth of NiFTi files.
+
+Furthermore, images came in different shapes
+due to which scanner had been used: 52\% entries followed [256 x 256 x 166] and 45\% had the [240 x 256 x 160] size.
+Unfortunately, reshaping such scans to a standard cannot be achieved using simple algorithms due to how much each small
+pixel matters, point solidified by the reason for these files to be stored in a special format on their own.
+
+FreeSurfer\footnote{\cite{FreeSurfer}} is one such software which handles most problems in data preprocessing for MRI scans, which wasn't
+useable in this research due to its operating softwares limitations, along with required available space.
+
+Thus, the input had been reduced to 52\% of valid entries, 300 cognitive normal scans and 187 from the AD group. As a consequence
+of this class imbalance, up-sampling was applied, which will be later described.
+
+\newpage
+\section{Preprocessing}
+In Data Science, preprocessing plays the valuable role of preparing data to be given to the learning algorithm. In order for
+the inference to unfold expectedly, the models expect inputs to follow their standards, and it becomes noticeable in their later
+evaluations if necessary preprocessing methods had not been utilised.
+
+Out of the most commonly known and met preprocessing methods in computer vision, this study includes, skull-stripping, oftenly
+considered in any brain scans related machine learning algorithms, due to their high level noise reduction, min-max normalization
+with the main purpose of reducing pixel values to the interval of [0, 1] and finally, an up-sampling of a specific class in the
+dataset, required for balancing.
+
+\subsection{Skull-Stripping}
+
+Firstly, as a preprocessing step, the skull-stripping technique takes place, which is realized by applying a segmentation mask
+to the original versions of the MRI. Segmentation masks represent black and white images, where the white area symbolizes
+the region of interest of the image to be applied on. These have been provided by the ADNI, and so only the algorithm
+which applies such a mask over an original scan needs to be written.
+
+As it can be seen in fig \ref{fig:segm-mask}, what is called background noise, or unnecessary additional pixels, get
+swept away, in our case being anything except of the human brain.
+
 
 \begin{figure}[htbp]
     \centering
@@ -481,37 +518,91 @@ needs to be applied.
     \label{fig:segm-mask}
 \end{figure}
 
+\subsection{Data visualisation}
+With the stripping step explained, we can now pay attention to a few differences of the brains between the cognitive normal
+and the Alzheimer's Disease group.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.4\textheight,width=0.95\textwidth]{figs/CN_coronal_slices.png}
+    \caption{CN patient - 16 slices around the hippocampus}
+    \label{fig:CN_coronal_slices}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.4\textheight,width=0.95\textwidth]{figs/AD_coronal_slices.png}
+    \caption{AD patient - 16 slices around the hippocampus}
+    \label{fig:AD_coronal_slices}
+\end{figure}
+
+As it can clearly be noticed, brain atrophies at the hippocampus of an Alzheimer's Disease diagnosed person (fig \ref{fig:AD_coronal_slices})
+can be much more easily observed compared to that of a normally cognitive brain (fig \ref{fig:CN_coronal_slices}). As previously noted,
+our main concern in these scans are about the Medial Temporal Lobe area, especially the hippocampus which resides in it. And as such,
+the models will consider the slices which surround a part of said hippocampus.
+
+\subsection{Min-Max normalization}
+Normalization lies at the foundation of machine learning preprocessing. Scaling takes place in order for all input data to be bound to the same
+interval of values, and as little that interval is, the easier for the models to find similarities between each entry. With that being said, values
+most popuarly become scaled down to two interval values: [-1, 1] or [0, 1].
+
+In this study, a min-max normalization algorithm is applied to the scan slices, which reduces pixels between 0 and 1. Each pixel going
+through the following formula:
+$$
+    x_{i,j} = \frac{x_{i,j} - x_{min}}{x_{max} - x_{min}}
+$$
+where $x_{min}$ and $x_{max}$ represent the smallest and largest pixel values of the original image.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[height=0.225\textheight,width=0.65\textwidth]{figs/min_max_normalization.png}
+    \caption{Min-max normalization, left image average pixel: 168.2, right image average pixel: 0.079}
+    \label{fig:min_max_normalization}
+\end{figure}
+
+\subsection{Up-sampling}
+Following up the imbalance in the number of diagnostics per class in the dataset, a certain method must be taken so that our dataset is equally balanced.
+At random, sufficient cases of Alzheimer's Disease group were duplicated up until the point of equality in cases with the Cognitive Normal class.
+
+\subsection{Image Registration}
+Image registration is the action of aligning each MRI scan to the same given coordinate space. It is under no circumstance possible for each
+subject to sit in the same position while scanners take the images. As mentioned before, FreeSurfer handles these complex pixel processing
+due to their complex algorithms, and as such this step was skipped.
+
 \newpage
-The following python function applies the segmentation mask given the mpr scan type and a path to the subject.
-\begin{lstlisting}
-import numpy as np
-import nibabel as nib
-from pathlib import Path
+\section{Methods}
 
-def open_and_apply_mask(subject_path : Path, mpr_type: str) -> np.ndarray:
-    '''
-    subject_path - path of a subject
-    mpr_type - which type of mpr to be considered
+% \newpage
+% The following python function applies the segmentation mask given the mpr scan type and a path to the subject.
+% \begin{lstlisting}
+% import numpy as np
+% import nibabel as nib
+% from pathlib import Path
 
-    Function takes the full path of the subject directory and the type of mpr, opens the unprocessed .nii file and its corresponding mask and returns the resulting array after applying the segmentation mask.
-    '''
-    mask_path = list(subject_path.glob(f"*{mpr_type}__*Mask*.nii"))[0]
-    image_path = list(subject_path.glob(f"*{mpr_type}__*_Correction_I*.nii"))[0]
+% def open_and_apply_mask(subject_path : Path, mpr_type: str) -> np.ndarray:
+%     '''
+%     subject_path - path of a subject
+%     mpr_type - which type of mpr to be considered
 
-    mask_arr = nib.load(mask_path).get_fdata()
-    image_arr = nib.load(image_path).get_fdata()
+%     Function takes the full path of the subject directory and the type of mpr, opens the unprocessed .nii file and its corresponding mask and returns the resulting array after applying the segmentation mask.
+%     '''
+%     mask_path = list(subject_path.glob(f"*{mpr_type}__*Mask*.nii"))[0]
+%     image_path = list(subject_path.glob(f"*{mpr_type}__*_Correction_I*.nii"))[0]
 
-    mask_arr = np.transpose(mask_arr, (2, 1, 0))
-    segmented_arr = image_arr.copy()
+%     mask_arr = nib.load(mask_path).get_fdata()
+%     image_arr = nib.load(image_path).get_fdata()
 
-    # Mask and image have different orientations for saggital plane
-    for i in range(mask_arr.shape[2]): 
-        mask_arr[:, :, i] = np.rot90(mask_arr[:, :, i], k=2)
+%     mask_arr = np.transpose(mask_arr, (2, 1, 0))
+%     segmented_arr = image_arr.copy()
 
-    segmented_arr[mask_arr == 0] = 0
+%     # Mask and image have different orientations for saggital plane
+%     for i in range(mask_arr.shape[2]): 
+%         mask_arr[:, :, i] = np.rot90(mask_arr[:, :, i], k=2)
 
-    return segmented_arr
-\end{lstlisting}
+%     segmented_arr[mask_arr == 0] = 0
+
+%     return segmented_arr
+% \end{lstlisting}
 
 \newpage
 \section{Acknowledgements}

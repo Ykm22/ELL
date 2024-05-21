@@ -306,3 +306,5 @@ Documents/Thesis/in_romana
 library.bib
 Documents/Thesis/figs
 library.bib
+*.pth
+__pycache__/

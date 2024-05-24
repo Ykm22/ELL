@@ -94,3 +94,10 @@ class ResNet(nn.Module):
 
         out = self.fc2(out)
         return out
+
+def ResNet101(device, num_classes):
+    return ResNet(Bottleneck, [3, 4, 23, 3], device, num_classes)
+
+
+def ResNet18(device, num_classes):
+    return ResNet(BasicBlock, [2, 2, 2, 2], device, num_classes)

@@ -307,4 +307,5 @@ library.bib
 Documents/Thesis/figs
 library.bib
 *.pth
+weights/
 __pycache__/

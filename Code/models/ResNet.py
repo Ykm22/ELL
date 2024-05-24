@@ -79,22 +79,6 @@ class ResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x, y):
-        # print(x.shape)
-        # final_out = np.ndarray((x.shape[0], x.shape[1], self.fc2.out_features))
-        # print(final_out.shape)
-        # print(combined_input.shape)
-
-
-        # for i in range(x.shape[1]):
-        #    slice = x[:, i, :, :].unsqueeze(1)
-            # print(slice.shape)
-        # out = F.relu(self.bn1(self.conv1(combined_input)))
-        
-        # Reshape input tensor to combine batch and timestep dimensions
-        # batch_size, sequence_length,  height, width = x.size()
-        # channels = 1
-        # combined_input = x.view(batch_size * sequence_length, channels, height, width)
-        # out = F.relu(self.bn1(self.conv1(combined_input)))
         out = F.relu(self.bn1(self.conv1(x)))
         out = self.maxpool(out)
         out = self.layer1(out)
@@ -104,19 +88,9 @@ class ResNet(nn.Module):
         out = self.avgpool(out)
         out = torch.flatten(out, 1)
         out = F.relu(self.fc1(out))
-        # print(out.shape)
-        # print(y.shape)
         
         # append (age, sex) to this layer
-        # out = torch.cat((out, y.repeat(sequence_length, 1, 1).view(batch_size * sequence_length, -1)), dim=1)
         out = torch.cat((out, y), dim=1)
-        # no need to apply softmax, CrossEntropy already handles this
+
         out = self.fc2(out)
-
-        # final_out = out.view(batch_size, sequence_length, -1)
-        # final_out = torch.mean(final_out, dim=1)
-
         return out
-
-def ResNet101(device):
-    return ResNet(Bottleneck, [3, 4, 23, 3], device)
